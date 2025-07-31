@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { UserContext } from '../../context/UserContext';
-import { buildApiUrl } from '../../config/api';
+import { buildApiUrl, initializeApiConfig } from '../../config/api';
 
 export default function ScreenLogin() {
   const [email, setEmail] = useState('');
@@ -10,6 +10,18 @@ export default function ScreenLogin() {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   const { setUser } = useContext(UserContext);
+
+  // Inicializar detección automática al cargar la pantalla
+  useEffect(() => {
+    const initApi = async () => {
+      try {
+        await initializeApiConfig();
+      } catch (error) {
+        console.log('Error inicializando API:', error);
+      }
+    };
+    initApi();
+  }, []);
 
   const handleLogin = async () => {
     setLoading(true);

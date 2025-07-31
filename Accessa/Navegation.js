@@ -21,6 +21,7 @@ import ScreenRegistro from './src/screen/Login/ScreenRegistro';
 import ConfiguracionesScreen from './src/screen/Perfil/ConfiguracionesScreen';
 import DatosScreen from './src/screen/Perfil/DatosScreen';
 import NotificacionesScreen from './src/screen/Perfil/NotificacionesScreen';
+import ApiConfig from './src/components/ApiConfig';
 
 //importamos los estilos
 import { Colors } from './src/themes/colors';
@@ -119,6 +120,7 @@ function MyStackUser() {
             <Stack.Screen name="Configuraciones" component={ConfiguracionesScreen} />
             <Stack.Screen name="Datos" component={DatosScreen} />
             <Stack.Screen name="Notificaciones" component={NotificacionesScreen} />
+            <Stack.Screen name="ApiConfig" component={ApiConfig} options={{ title: 'Configurar API' }} />
         </Stack.Navigator>
     );
 }

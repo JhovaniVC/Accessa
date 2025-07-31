@@ -22,6 +22,7 @@ export default function ProfileScreen({navigation}) {
   const goToDatos = () => navigation.navigate('Datos');
   const goToNoti = () => navigation.navigate('Notificaciones');
   const goToConf = () => navigation.navigate('Configuraciones');
+  const goToApiConfig = () => navigation.navigate('ApiConfig');
 
   const handleLogout = async () => {
     Alert.alert(
@@ -118,6 +119,14 @@ export default function ProfileScreen({navigation}) {
           <View style={styles.menuItemContent}>
             <Icon name="settings" size={24} color={Colors.primary} style={styles.menuIcon} />
             <Text style={styles.menuItemText}>Configuraciones</Text>
+          </View>
+          <Icon name="chevron-right" size={24} color={Colors.gray} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.menuItem} activeOpacity={0.7} onPress={goToApiConfig}>
+          <View style={styles.menuItemContent}>
+            <Icon name="wifi" size={24} color={Colors.primary} style={styles.menuIcon} />
+            <Text style={styles.menuItemText}>Configurar API</Text>
           </View>
           <Icon name="chevron-right" size={24} color={Colors.gray} />
         </TouchableOpacity>

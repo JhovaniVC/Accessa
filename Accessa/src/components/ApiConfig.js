@@ -1,11 +1,33 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { Colors } from '../themes/colors';
-import { setApiBaseUrl, getCurrentApiUrl } from '../config/api';
+import { setApiBaseUrl, getCurrentApiUrl, initializeApiConfig } from '../config/api';
 
 export default function ApiConfig() {
-  const [ipAddress, setIpAddress] = useState('192.168.1.225');
+  const [ipAddress, setIpAddress] = useState('172.16.52.86');
   const [port, setPort] = useState('3000');
+  const [isDetecting, setIsDetecting] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState('');
+
+  useEffect(() => {
+    setCurrentUrl(getCurrentApiUrl());
+  }, []);
+
+  const handleAutoDetect = async () => {
+    setIsDetecting(true);
+    try {
+      const detectedIP = await initializeApiConfig();
+      const url = new URL(detectedIP);
+      setIpAddress(url.hostname);
+      setPort(url.port || '3000');
+      setCurrentUrl(detectedIP);
+      Alert.alert('Detección Exitosa', `Servidor encontrado en: ${detectedIP}`);
+    } catch (error) {
+      Alert.alert('Error', 'No se pudo detectar automáticamente el servidor');
+    } finally {
+      setIsDetecting(false);
+    }
+  };
 
   const handleSaveConfig = () => {
     if (!ipAddress || !port) {
@@ -15,6 +37,7 @@ export default function ApiConfig() {
 
     const newBaseUrl = `http://${ipAddress}:${port}`;
     setApiBaseUrl(newBaseUrl);
+    setCurrentUrl(newBaseUrl);
     Alert.alert('Éxito', `API configurada en: ${newBaseUrl}`);
   };
 
@@ -35,15 +58,26 @@ export default function ApiConfig() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Configuración de API</Text>
-      <Text style={styles.subtitle}>Cambia la IP cuando cambies de red</Text>
+      <Text style={styles.subtitle}>Detección automática o configuración manual</Text>
       
+      <TouchableOpacity style={styles.autoDetectButton} onPress={handleAutoDetect} disabled={isDetecting}>
+        {isDetecting ? (
+          <View style={styles.buttonContent}>
+            <ActivityIndicator size="small" color="white" />
+            <Text style={styles.buttonText}>Detectando...</Text>
+          </View>
+        ) : (
+          <Text style={styles.buttonText}>🔍 Detectar Automáticamente</Text>
+        )}
+      </TouchableOpacity>
+
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Dirección IP:</Text>
         <TextInput
           style={styles.input}
           value={ipAddress}
           onChangeText={setIpAddress}
-          placeholder="192.168.1.225"
+          placeholder="172.16.52.86"
           keyboardType="numeric"
         />
       </View>
@@ -70,7 +104,7 @@ export default function ApiConfig() {
       </View>
 
       <Text style={styles.currentUrl}>
-        URL actual: {getCurrentApiUrl()}
+        URL actual: {currentUrl}
       </Text>
     </View>
   );
@@ -91,6 +125,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.textSecondary,
     marginBottom: 20,
+  },
+  autoDetectButton: {
+    backgroundColor: Colors.secondary,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   inputContainer: {
     marginBottom: 16,
