@@ -12,9 +12,9 @@ import {
 import ViewShot from 'react-native-view-shot';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import QRCode from 'react-native-qrcode-svg';
-import { Colors } from '../../themes/colors';
-import { UserContext } from '../../context/UserContext';
-import { buildApiUrl } from '../../config/api';
+import { Colors } from '../../../themes/colors.js';
+import { UserContext } from '../../../context/UserContext.js';
+import { buildApiUrl } from '../../../config/api.js';
 
 export default function ScreenCodigoQR({ navigation }) {
   const { user } = useContext(UserContext);
@@ -172,13 +172,6 @@ export default function ScreenCodigoQR({ navigation }) {
           Rellena el formulario de acuerdo a la información de su invitado
         </Text>
 
-        <TouchableOpacity 
-          style={styles.viewListButton}
-          onPress={() => navigation.navigate('QRList')}
-        >
-          <Text style={styles.viewListButtonText}>Ver mis códigos QR</Text>
-        </TouchableOpacity>
-
         <View style={styles.card}>
           {/* Nombre */}
           <View style={styles.fieldGroup}>
@@ -253,10 +246,18 @@ export default function ScreenCodigoQR({ navigation }) {
           </Text>
         </TouchableOpacity>
 
+        
+        <TouchableOpacity 
+          style={styles.viewListButton}
+          onPress={() => navigation.navigate('QRList')}
+        >
+          <Text style={styles.viewListButtonText}>Ver mis códigos QR</Text>
+        </TouchableOpacity>
+
         {/* Mostrar el código QR generado */}
         {generatedQR && (
           <View style={styles.qrContainer}>
-            <Text style={styles.qrTitle}>✅ Código QR Generado</Text>
+            <Text style={styles.qrTitle}> Código QR Generado</Text>
             <Text style={styles.qrSubtitle}>Para: {guestName}</Text>
             
             <ViewShot ref={qrRef} style={styles.qrCodeContainer}>
@@ -327,7 +328,7 @@ export default function ScreenCodigoQR({ navigation }) {
 
 const styles = StyleSheet.create({
   scrollContent: {
-    paddingBottom: 60,
+    paddingBottom: 100,
   },
   container: {
     flex: 1,
@@ -378,7 +379,7 @@ const styles = StyleSheet.create({
   },
   placeholderText: {
     fontSize: 15,
-    color: Colors.textPrimary,
+    color: Colors.textSecondary,
   },
   submitButton: {
     borderRadius: 8,
@@ -406,6 +407,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 8,
     marginBottom: 20,
+    margin:10,
     alignItems: 'center',
   },
   viewListButtonText: {

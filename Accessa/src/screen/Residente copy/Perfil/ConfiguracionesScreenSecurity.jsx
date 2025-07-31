@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, Switch, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Colors } from '../../themes/colors';
-import ApiConfig from '../../components/ApiConfig';
+import { Colors } from '../../../themes/colors';
+import ApiConfig from '../../../components/ApiConfig';
 
-export default function ConfiguracionesScreen(){
+export default function ConfiguracionesScreenSecurity(){
   // Estados para las configuraciones básicas
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);

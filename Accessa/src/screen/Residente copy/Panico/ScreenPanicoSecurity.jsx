@@ -6,11 +6,10 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import { Colors } from '../../themes/colors';
+import { Colors } from '../../../themes/colors';
 
-export default function ScreenPanico({ navigation }) {
+export default function ScreenPanicoSecurity({ navigation }) {
   const handlePanicPress = () => {
-    // Aquí se puede agregar lógica de emergencia real
     console.log('Botón de emergencia presionado');
   };
 
@@ -28,10 +27,19 @@ export default function ScreenPanico({ navigation }) {
       </TouchableOpacity>
 
       <View style={styles.infoBox}>
-        <Text style={styles.infoTitle}>Al presionar este botón:</Text>
-        <Text style={styles.infoItem}>• Se enviará tu ubicación</Text>
-        <Text style={styles.infoItem}>• Se alertará a tus contactos</Text>
-        <Text style={styles.infoItem}>• Se puede activar una alarma</Text>
+        <Text style={styles.infoTitle}>¿Qué ocurre al presionar el botón?</Text>
+        <View style={styles.bulletContainer}>
+          <Text style={styles.bullet}>•</Text>
+          <Text style={styles.bulletText}>Se enviará tu ubicación en tiempo real.</Text>
+        </View>
+        <View style={styles.bulletContainer}>
+          <Text style={styles.bullet}>•</Text>
+          <Text style={styles.bulletText}>Se alertará a tus contactos de confianza.</Text>
+        </View>
+        <View style={styles.bulletContainer}>
+          <Text style={styles.bullet}>•</Text>
+          <Text style={styles.bulletText}>Podría activarse una alarma audible.</Text>
+        </View>
         <Text style={styles.infoNote}>⚠️ Úsalo solo en emergencias reales.</Text>
       </View>
     </ScrollView>
@@ -46,65 +54,77 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 26,
-    fontWeight: '700',
+    fontSize: 28,
+    fontWeight: 'bold',
     color: Colors.textPrimary,
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: 6,
   },
   subtitle: {
     fontSize: 15,
     color: Colors.textSecondary,
     textAlign: 'center',
-    marginBottom: 32,
+    marginBottom: 30,
   },
   panicButton: {
-    width: 220,
-    height: 220,
-    borderRadius: 110,
+    width: 300,
+    height: 300,
+    borderRadius: 150,
     backgroundColor: Colors.danger,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.25,
-    shadowRadius: 12,
-    elevation: 8,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 12,
+    marginBottom: 40,
   },
   panicText: {
-    fontSize: 46,
+    fontSize: 50,
     fontWeight: 'bold',
     color: Colors.textOnPrimary,
-    letterSpacing: 3,
+    letterSpacing: 4,
   },
   panicSubText: {
-    fontSize: 14,
+    fontSize: 16,
     color: Colors.textOnPrimary,
-    marginTop: 4,
+    marginTop: 6,
   },
   infoBox: {
-    marginTop: 40,
     backgroundColor: Colors.card,
-    borderRadius: 12,
+    borderRadius: 14,
     padding: 20,
     width: '100%',
-    elevation: 4,
+    elevation: 5,
   },
   infoTitle: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '600',
     color: Colors.textPrimary,
-    marginBottom: 12,
+    marginBottom: 14,
   },
-  infoItem: {
+  bulletContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 8,
+  },
+  bullet: {
+    fontSize: 18,
+    lineHeight: 22,
+    color: Colors.textSecondary,
+    marginRight: 8,
+  },
+  bulletText: {
+    flex: 1,
     fontSize: 14,
     color: Colors.textSecondary,
-    marginBottom: 4,
+    lineHeight: 20,
   },
   infoNote: {
     fontSize: 13,
     color: Colors.textSecondary,
     fontStyle: 'italic',
-    marginTop: 12,
+    marginTop: 14,
   },
 });

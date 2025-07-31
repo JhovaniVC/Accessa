@@ -1,183 +1,92 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
-import { Text, Button, Card, Title, Avatar } from 'react-native-paper';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, Card, Avatar } from 'react-native-paper';
 import { Colors } from '../themes/colors';
 
-
 export const InfoCard = ({ icon, title, metric, subtitle, buttonLabel, onPress }) => (
-  <Card style={styles.infoCard}>
-    <Card.Content style={styles.infoCardContent}>
-      <View style={styles.infoHeader}>
-        <Avatar.Icon icon={icon} size={40} style={styles.infoIcon} />
-        <Text style={styles.infoTitle}>{title}</Text>
+  <Card style={styles.card}>
+    <View style={styles.cardHeader}>
+      <Text style={styles.title}>{title}</Text>
+    </View>
+
+    <Card.Content>
+      <View style={styles.row}>
+        <Avatar.Icon
+          icon={icon}
+          size={60}
+          color={Colors.primaryDark}
+          style={[styles.icon, { backgroundColor: '#fff' }]}
+        />
+
+        <View style={styles.texts}>
+          <Text style={styles.metric}>{metric}</Text>
+          <Text style={styles.subtitle}>{subtitle}</Text>
+        </View>
       </View>
-      <Title style={styles.infoMetric}>{metric}</Title>
-      <Text style={styles.infoSubtitle}>{subtitle}</Text>
-      <Button
-        mode="outlined"
-        style={styles.infoButton}
-        labelStyle={styles.infoButtonLabel}
-        onPress={onPress}
-      >
-        {buttonLabel}
-      </Button>
+
+      <TouchableOpacity style={styles.button} onPress={onPress}>
+        <Text style={styles.buttonText}>{buttonLabel}</Text>
+      </TouchableOpacity>
     </Card.Content>
   </Card>
 );
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: Colors.background,
+  card: {
+    borderRadius: 16,
+    backgroundColor: Colors.card,
+    marginVertical: 0,
+    elevation: 3, // sombra para Android
+    shadowColor: '#000', // sombra para iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
-  scrollContent: {
-    padding: 40,
-    paddingBottom: 40,
+  cardHeader: {
+    backgroundColor: Colors.title,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
   },
-  header: {
-    marginTop: 20,
-    marginBottom: 24,
-  },
-  headerTitle: {
-    fontSize: 26,
+  title: {
+    textAlign: 'center',
+    fontSize: 20,
+    color: Colors.card,
     fontWeight: 'bold',
-    color: Colors.title,
-    alignSelf: 'center',
-    marginBottom: 12,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 0,
+  },
+  icon: {
+    borderRadius: 20,
+  },
+  texts: {
+    flex: 1,
+    paddingLeft: 10,
+  },
+  metric: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: Colors.textPrimary,
+    marginBottom: 0,
   },
   subtitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: Colors.title,
-    marginTop:30,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: Colors.title,
-    marginVertical: 16,
-  },
-  // Emergencia
-  emergencyCard: {
-    borderRadius: 15,
-    backgroundColor: Colors.danger,
-    marginBottom: 24,
-    alignItems: 'center',
-  },
-  emergencyCardContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-  },
-  emergencyIcon: {
-    backgroundColor: Colors.danger,
-    marginRight: 16,
-  },
-  emergencyTextContainer: {
-    flex: 1,
-  },
-  emergencyTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: Colors.textOnPrimary,
-    marginBottom: 4,
-  },
-  emergencySubtitle: {
-    fontSize: 14,
+    fontSize: 13,
     color: Colors.textSecondary,
   },
-  emergencyButton: {
-    backgroundColor: Colors.danger,
-    borderRadius: 8,
-    marginLeft: 16,
-    width: 100,
-  },
-  emergencyButtonLabel: {
-    color: Colors.textPrimary,
-    fontWeight: 'bold',
-    fontSize: 14,
-  },
-  // Acciones
-  actionsGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 24,
-    
-  },
-  actionCard: {
-    width: '48%',
-    borderRadius: 12,
+  button: {
     backgroundColor: Colors.primary,
-    color: Colors.textOnPrimary, 
-    elevation: 2,
-  },
-  actionCardContent: {
+    paddingVertical: 10,
+    borderRadius: 20,
     alignItems: 'center',
-    padding: 16,
+    marginTop: 8,
   },
-  actionIcon: {
-    backgroundColor: Colors.primary,
-    color: Colors.textPrimary,
-    marginBottom: 12,
-    borderRadius:50
-  },
-  actionTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: Colors.textOnPrimary,
-    marginBottom: 4,
-    textAlign: 'center',
-  },
-  actionSubtitle: {
-    fontSize: 1,
-    color: Colors.textPrimary,
-    textAlign: 'center',
-  },
-
-  
-  // Info
-  cardContainer: {
-    marginBottom: 20,
-  },
-  infoCard: {
-    borderRadius: 12,
-    backgroundColor: Colors.card,
-    elevation: 2,
-  },
-  infoCardContent: {
-    padding: 16,
-  },
-  infoHeader: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  infoIcon: {
-    backgroundColor: Colors.primaryLight,
-  },
-  infoTitle: {
-    fontSize: 16,
+  buttonText: {
+    color: '#fff',
+    fontSize: 15,
     fontWeight: '600',
-    color: Colors.textPrimary,
-  },
-  infoMetric: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: Colors.textPrimary,
-    marginBottom: 4,
-  },
-  infoSubtitle: {
-    fontSize: 14,
-    color: Colors.textSecondary,
-    marginBottom: 12,
-  },
-  infoButton: {
-    borderColor: Colors.primary,
-    borderRadius: 8,
-  },
-  infoButtonLabel: {
-    color: Colors.primary,
-    fontSize: 14,
   },
 });

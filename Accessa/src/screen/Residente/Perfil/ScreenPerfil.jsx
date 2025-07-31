@@ -9,19 +9,20 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Colors } from '../../themes/colors';
-import { UserContext } from '../../context/UserContext';
-import { buildApiUrl } from '../../config/api';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Colors } from '../../../themes/colors.js';
+import { UserContext } from '../../../context/UserContext.js';
+import { buildApiUrl } from '../../../config/api.js';
 
 
-
-export default function ProfileScreen({navigation}) {
+export default function ProfileScreen({ navigation }) {
   const { user, logout } = useContext(UserContext);
   const [loggingOut, setLoggingOut] = useState(false);
 
   const goToDatos = () => navigation.navigate('Datos');
   const goToNoti = () => navigation.navigate('Notificaciones');
   const goToConf = () => navigation.navigate('Configuraciones');
+  const goToAct = () => navigation.navigate('Actividades')
 
   const handleLogout = async () => {
     Alert.alert(
@@ -49,13 +50,13 @@ export default function ProfileScreen({navigation}) {
 
               // Limpiar el contexto del usuario
               logout();
-              
+
               // Navegar al login
               navigation.reset({
                 index: 0,
                 routes: [{ name: 'Login' }],
               });
-              
+
               Alert.alert('Sesión Cerrada', 'Has cerrado sesión exitosamente');
             } catch (error) {
               console.error('Error al cerrar sesión:', error);
@@ -99,16 +100,16 @@ export default function ProfileScreen({navigation}) {
       <View style={styles.menuCard}>
         <TouchableOpacity style={styles.menuItem} activeOpacity={0.7} onPress={goToDatos}>
           <View style={styles.menuItemContent}>
-            <Icon name="person-outline" size={24} color={Colors.primary} style={styles.menuIcon} />
+            <Icon name="person" size={24} color={Colors.primary} style={styles.menuIcon} />
             <Text style={styles.menuItemText}>Datos personales</Text>
-            
+
           </View>
           <Icon name="chevron-right" size={24} color={Colors.gray} />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.menuItem} activeOpacity={0.7} onPress={goToNoti}>
           <View style={styles.menuItemContent}>
-            <Icon name="notifications-none" size={24} color={Colors.primary} style={styles.menuIcon} />
+            <Icon name="notifications" size={24} color={Colors.primary} style={styles.menuIcon} />
             <Text style={styles.menuItemText}>Notificaciones</Text>
           </View>
           <Icon name="chevron-right" size={24} color={Colors.gray} />
@@ -121,10 +122,18 @@ export default function ProfileScreen({navigation}) {
           </View>
           <Icon name="chevron-right" size={24} color={Colors.gray} />
         </TouchableOpacity>
+
+        <TouchableOpacity style={styles.menuItem} activeOpacity={0.7} onPress={goToAct}>
+          <View style={styles.menuItemContent}>
+            <Icon name="description" size={24} color={Colors.primary} style={styles.menuIcon} />
+            <Text style={styles.menuItemText}>Actividad</Text>
+          </View>
+          <Icon name="chevron-right" size={24} color={Colors.gray} />
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity 
-        style={[styles.logoutButton, loggingOut && styles.logoutButtonDisabled]} 
+      <TouchableOpacity
+        style={[styles.logoutButton, loggingOut && styles.logoutButtonDisabled]}
         activeOpacity={0.85}
         onPress={handleLogout}
         disabled={loggingOut}

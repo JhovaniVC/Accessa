@@ -1,7 +1,7 @@
 // Configuración centralizada de la API
 const API_CONFIG = {
   // Detectar automáticamente la IP o usar una por defecto
-  BASE_URL: process.env.EXPO_PUBLIC_API_URL || 'http://192.168.1.225:3000',
+  BASE_URL: process.env.EXPO_PUBLIC_API_URL || 'http:// 192.168.1.64:3000',
   
   // Endpoints
   ENDPOINTS: {

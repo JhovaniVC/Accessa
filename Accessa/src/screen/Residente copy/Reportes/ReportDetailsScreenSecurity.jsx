@@ -8,11 +8,11 @@ import {
   Alert,
   Image,
 } from 'react-native';
-import { Colors } from '../../themes/colors';
-import { UserContext } from '../../context/UserContext';
-import { buildApiUrl, buildImageUrl } from '../../config/api';
+import { Colors } from '../../../themes/colors.js';
+import { UserContext } from '../../../context/UserContext.js';
+import { buildApiUrl, buildImageUrl } from '../../../config/api.js';
 
-export default function ReportDetailsScreen({ navigation }) {
+export default function ReportDetailsScreenSecurity({ navigation }) {
   const { user } = useContext(UserContext);
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);

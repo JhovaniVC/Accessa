@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { View, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
 import { Text, Button, Card, Title, Avatar } from 'react-native-paper';
-import { Colors } from '../../themes/colors.js';
-import { ActionCard } from '../../components/ActionCard.js';
-import { InfoCard } from '../../components/InfoCard.js';
-import { UserContext } from '../../context/UserContext';
-import { buildApiUrl } from '../../config/api';
+import { Colors } from '../../../themes/colors.js';
+import { ActionCard } from '../../../components/ActionCard.js';
+import { InfoCard } from '../../../components/InfoCard.js';
+import { UserContext } from '../../../context/UserContext.js';
+import { buildApiUrl } from '../../../config/api.js';
+
 
 export default function ScreenHome({ navigation }) {
   const { user } = useContext(UserContext);
@@ -19,7 +20,7 @@ export default function ScreenHome({ navigation }) {
   // Función para obtener estadísticas de reportes del usuario
   const fetchReportStats = async () => {
     if (!user?._id) return;
-    
+
     try {
       const response = await fetch(buildApiUrl(`/api/reports/user/${user._id}`), {
         method: 'GET',
@@ -28,16 +29,16 @@ export default function ScreenHome({ navigation }) {
         },
         credentials: 'include',
       });
-      
+
       if (response.ok) {
         const reports = await response.json();
         const now = new Date();
         const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-        
-        const thisMonthReports = reports.filter(report => 
+
+        const thisMonthReports = reports.filter(report =>
           new Date(report.createdAt) >= thisMonth
         );
-        
+
         setReportStats({
           total: reports.length,
           thisMonth: thisMonthReports.length,
@@ -61,6 +62,7 @@ export default function ScreenHome({ navigation }) {
   const goToReportes = () => navigation.navigate('Reportes');
   const goToQR = () => navigation.navigate('QR');
   const goToReportDetails = () => navigation.navigate('ReportDetails');
+  const goToQRdetails = () => navigation.navigate('QRList')
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -77,6 +79,7 @@ export default function ScreenHome({ navigation }) {
             <Avatar.Icon icon="alert" size={48} style={styles.emergencyIcon} />
             <View style={styles.emergencyTextContainer}>
               <Text style={styles.emergencyTitle}>Botón de Emergencia</Text>
+              <Text style={styles.emergencysub}>Solo en caso de emergencias</Text>
             </View>
           </Card.Content>
         </TouchableOpacity>
@@ -100,14 +103,23 @@ export default function ScreenHome({ navigation }) {
 
         {/* Estadísticas */}
         <Text style={styles.sectionTitle}>Estadísticas</Text>
+        <Text style={styles.sectionSub}>Estadisticas mensuales</Text>
         <View style={styles.cardContainer}>
           <InfoCard
-            icon="chart-bar"
+            icon="file-document"
             title="Reportes"
             metric={reportStats.loading ? 'Cargando...' : `${reportStats.thisMonth}`}
             subtitle="Este mes"
             buttonLabel="Ver detalles"
             onPress={goToReportDetails}
+          />
+          <InfoCard
+            icon="qrcode"
+            title="CodigosQR"
+            metric={reportStats.loading ? 'Cargando...' : `${reportStats.thisMonth}`}
+            subtitle="Este mes"
+            buttonLabel="Ver detalles"
+            onPress={goToQRdetails}
           />
         </View>
       </ScrollView>
@@ -115,159 +127,75 @@ export default function ScreenHome({ navigation }) {
   );
 }
 
+
 const styles = StyleSheet.create({
   safeArea: {
-    flex: 1,
     backgroundColor: Colors.background,
   },
   scrollContent: {
-    padding: 40,
-    paddingBottom: 40,
+    paddingHorizontal: 20,
+    paddingTop: 30,
+    paddingBottom: 120,
   },
   header: {
-    marginTop: 20,
     marginBottom: 24,
+    alignItems: 'center',
   },
   headerTitle: {
     fontSize: 26,
     fontWeight: 'bold',
     color: Colors.title,
-    alignSelf: 'center',
-    marginBottom: 12,
+    marginBottom: 8,
+    textAlign: 'center',
   },
   subtitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 15,
     color: Colors.title,
-    marginTop: 30,
+    textAlign: 'center',
   },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: Colors.title,
-    marginVertical: 16,
-  },
-  // Emergencia
   emergencyCard: {
     borderRadius: 15,
     backgroundColor: Colors.danger,
-    marginBottom: 24,
-    alignItems: 'center',
+    marginBottom: 28,
+    elevation: 4,
   },
   emergencyCardContent: {
-    flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    paddingVertical: 24,
   },
   emergencyIcon: {
     backgroundColor: Colors.danger,
-    marginRight: 16,
-  },
-  emergencyTextContainer: {
-    flex: 1,
+    marginBottom: 8,
   },
   emergencyTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     color: Colors.textOnPrimary,
-    marginBottom: 4,
+    textAlign: 'center'
   },
-  emergencySubtitle: {
-    fontSize: 14,
-    color: Colors.textSecondary,
-  },
-  emergencyButton: {
-    backgroundColor: Colors.danger,
-    borderRadius: 8,
-    marginLeft: 16,
-    width: 100,
-  },
-  emergencyButtonLabel: {
-    color: Colors.textPrimary,
-    fontWeight: 'bold',
-    fontSize: 14,
-  },
-  // Acciones
+  emergencysub: { color: 'white', fontSize: 13, textAlign: 'center', marginTop: 5 },
   actionsGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 24,
-    
+    gap: 20,
+    marginBottom: 30,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  actionCard: {
-    width: '48%',
-    borderRadius: 12,
-    backgroundColor: Colors.primary,
-    color: Colors.textOnPrimary, 
-    elevation: 2,
-  },
-  actionCardContent: {
-    alignItems: 'center',
-    padding: 16,
-  },
-  actionIcon: {
-    backgroundColor: Colors.primary,
-    color: Colors.textPrimary,
-    marginBottom: 12,
-    borderRadius:50
-  },
-  actionTitle: {
-    fontSize: 16,
+  sectionTitle: {
+    fontSize: 25,
     fontWeight: 'bold',
-    color: Colors.textOnPrimary,
-    marginBottom: 4,
-    textAlign: 'center',
+    color: Colors.title,
+    marginBottom: 10,
+    textAlign: 'center'
   },
-  actionSubtitle: {
-    fontSize: 1,
-    color: Colors.textPrimary,
-    textAlign: 'center',
+  sectionSub: {
+    fontSize: 15,
+    color: Colors.title,
+    marginBottom: 25,
+    textAlign: 'center'
   },
-
-  
-  // Info
   cardContainer: {
-    marginBottom: 20,
-  },
-  infoCard: {
-    borderRadius: 12,
-    backgroundColor: Colors.card,
-    elevation: 2,
-  },
-  infoCardContent: {
-    padding: 16,
-  },
-  infoHeader: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  infoIcon: {
-    backgroundColor: Colors.primaryLight,
-  },
-  infoTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.textPrimary,
-  },
-  infoMetric: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: Colors.textPrimary,
-    marginBottom: 4,
-  },
-  infoSubtitle: {
-    fontSize: 14,
-    color: Colors.textSecondary,
-    marginBottom: 12,
-  },
-  infoButton: {
-    borderColor: Colors.primary,
-    borderRadius: 8,
-  },
-  infoButtonLabel: {
-    color: Colors.primary,
-    fontSize: 14,
+    gap: 20,
+    marginLeft: 15,
+    marginRight: 15
   },
 });

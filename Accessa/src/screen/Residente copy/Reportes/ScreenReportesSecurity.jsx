@@ -9,13 +9,13 @@ import {
   Alert,
   Image, // <-- Agrego esta línea
 } from 'react-native';
-import { Colors } from '../../themes/colors';
-import Picker from '../../components/Picker';
-import ImageSelector from '../../components/ImageSelector';
-import { UserContext } from '../../context/UserContext';
-import { buildApiUrl } from '../../config/api';
+import { Colors } from '../../../themes/colors';
+import Picker from '../../../components/Picker';
+import ImageSelector from '../../../components/ImageSelector';
+import { UserContext } from '../../../context/UserContext';
+import { buildApiUrl } from '../../../config/api';
 
-export default function ScreenReportes() {
+export default function ScreenReportesSecurity() {
   const [tipoProblema, setTipoProblema] = useState(null);
   const [ubicacion, setUbicacion] = useState(null);
   const [descripcion, setDescripcion] = useState('');
@@ -97,53 +97,56 @@ export default function ScreenReportes() {
     >
       <View style={styles.container}>
         {/* <Text style={styles.title}>Hola, {usuario} 👋</Text> */}
-        <Text style={styles.sectionTitle}>Describa el problema a reportar</Text>  
 
-        <View style={styles.card}>
-          <Text style={styles.label}>Descripción del problema:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Describe detalladamente el problema"
-            placeholderTextColor={Colors.gray}
-            multiline
-            numberOfLines={4}
-            value={descripcion}
-            onChangeText={setDescripcion}
-          />
+<Text style={styles.sectionTitle}>Describa el problema a reportar</Text>  
 
-          <Picker
-            label="Tipo de problema"
-            options={['Robo', 'Vandalismo', 'Accidente', 'Otro']}
-            selectedValue={tipoProblema}
-            onSelect={setTipoProblema}
-          />
+<View style={styles.card}>
+  <Text style={styles.label}>Descripción del problema:</Text>
+  <TextInput
+    style={styles.input}
+    placeholder="Describe detalladamente el problema"
+    placeholderTextColor={Colors.gray}
+    multiline
+    numberOfLines={4}
+    value={descripcion}
+    onChangeText={setDescripcion}
+  />
 
-          <Picker
-            label="Ubicación del incidente"
-            options={['Calle 1', 'Calle 2', 'Edificio A', 'Otro']}
-            selectedValue={ubicacion}
-            onSelect={setUbicacion}
-          />
+  <Picker
+    label="Tipo de problema"
+    options={['Robo', 'Vandalismo', 'Accidente', 'Otro']}
+    selectedValue={tipoProblema}
+    onSelect={setTipoProblema}
+  />
 
-          <View style={styles.fieldGroup}>
-            <Text style={styles.label}>Adjuntar evidencia (opcional):</Text>
-            <TouchableOpacity style={styles.attachmentButton} activeOpacity={0.7}>
-              <ImageSelector onImageSelected={handleImageSelected} ref={imageSelectorRef} />
-            </TouchableOpacity>
-            {imagen && (
-              <View style={{ alignItems: 'center', marginTop: 10 }}>
-                <Image source={{ uri: imagen }} style={{ width: 200, height: 150, borderRadius: 10, marginBottom: 6 }} />
-                <TouchableOpacity onPress={() => setImagen(null)}>
-                  <Text style={{ color: 'red', fontWeight: 'bold' }}>Eliminar imagen</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </View>
-        </View>
+  <Picker
+    label="Ubicación del incidente"
+    options={['Calle 1', 'Calle 2', 'Edificio A', 'Otro']}
+    selectedValue={ubicacion}
+    onSelect={setUbicacion}
+  />
 
-        <TouchableOpacity style={styles.submitButton} activeOpacity={0.85} onPress={handleEnviarReporte}>
-          <Text style={styles.submitButtonText}>Enviar Reporte</Text>
+  <View style={styles.fieldGroup}>
+    <Text style={styles.label}>Adjuntar evidencia (opcional):</Text>
+    <TouchableOpacity style={styles.attachmentButton} activeOpacity={0.8}>
+      <ImageSelector onImageSelected={handleImageSelected} ref={imageSelectorRef} />
+    </TouchableOpacity>
+
+    {imagen && (
+      <View style={styles.imagePreviewContainer}>
+        <Image source={{ uri: imagen }} style={styles.previewImage} />
+        <TouchableOpacity onPress={() => setImagen(null)}>
+          <Text style={styles.removeImageText}>Eliminar imagen</Text>
         </TouchableOpacity>
+      </View>
+    )}
+  </View>
+</View>
+
+<TouchableOpacity style={styles.submitButton} activeOpacity={0.9} onPress={handleEnviarReporte}>
+  <Text style={styles.submitButtonText}>Enviar Reporte</Text>
+</TouchableOpacity>
+
       </View>
     </ScrollView>
   );
@@ -151,36 +154,29 @@ export default function ScreenReportes() {
 const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: 40,
-    marginBottom:40
   },
   container: {
     flex: 1,
     paddingHorizontal: 24,
     paddingTop: 40,
   },
-  title: {
-    fontSize: 28,
-    fontWeight: '700',
-    marginBottom: 16,
-    textAlign: 'center',
-    color: Colors.textPrimary,
-  },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 24,
+    fontSize: 20,
+    fontWeight: '700',
+    marginBottom: 20,
     color: Colors.textPrimary,
+    textAlign: 'center',
   },
   card: {
     backgroundColor: Colors.card,
     borderRadius: 16,
     padding: 20,
-    marginBottom: 20,
+    marginBottom: 30,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.08,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.1,
     shadowRadius: 10,
-    elevation: 4,
+    elevation: 6,
   },
   label: {
     fontSize: 16,
@@ -191,7 +187,7 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: Colors.border,
-    borderRadius: 8,
+    borderRadius: 10,
     backgroundColor: Colors.card,
     padding: 14,
     minHeight: 100,
@@ -203,51 +199,47 @@ const styles = StyleSheet.create({
   fieldGroup: {
     marginBottom: 20,
   },
-  selector: {
-    borderWidth: 1,
-    borderColor: Colors.border,
-    borderRadius: 8,
-    backgroundColor: Colors.card,
-    padding: 14,
-  },
-  selectorText: {
-    fontSize: 15,
-    color: Colors.gray,
-  },
   attachmentButton: {
-    borderWidth: 1,
-    borderColor: Colors.border,
-    borderRadius: 8,
-    padding: 14,
+    borderWidth: 1.5,
+    borderColor: Colors.primary,
+    borderRadius: 10,
+    padding: 16,
     alignItems: 'center',
     borderStyle: 'dashed',
     backgroundColor: Colors.highlight,
   },
-  attachmentText: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: Colors.primary,
+  imagePreviewContainer: {
+    alignItems: 'center',
+    marginTop: 15,
   },
-  divider: {
-    height: 1,
-    backgroundColor: Colors.border,
-    marginVertical: 20,
+  previewImage: {
+    width: 220,
+    height: 160,
+    borderRadius: 12,
+    marginBottom: 8,
+  },
+  removeImageText: {
+    color: 'red',
+    fontWeight: 'bold',
+    fontSize: 14,
   },
   submitButton: {
-    borderRadius: 8,
-    padding: 16,
+    borderRadius: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 32,
     alignItems: 'center',
     backgroundColor: Colors.primary,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 4,
-    marginBottom:100
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 5,
+    marginTop: 10,
+    marginBottom: 60,
   },
   submitButtonText: {
     color: Colors.textOnPrimary,
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 17,
+    fontWeight: '700',
   },
 });

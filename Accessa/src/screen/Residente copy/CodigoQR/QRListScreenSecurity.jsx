@@ -11,11 +11,11 @@ import {
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import ViewShot from 'react-native-view-shot';
-import { Colors } from '../../themes/colors';
-import { UserContext } from '../../context/UserContext';
-import { buildApiUrl } from '../../config/api';
+import { Colors } from '../../../themes/colors.js';
+import { UserContext } from '../../../context/UserContext.js';
+import { buildApiUrl } from '../../../config/api.js';
 
-export default function QRListScreen({ navigation }) {
+export default function QRListScreenSecurity({ navigation }) {
   const { user } = useContext(UserContext);
   const [qrCodes, setQrCodes] = useState([]);
   const [loading, setLoading] = useState(true);

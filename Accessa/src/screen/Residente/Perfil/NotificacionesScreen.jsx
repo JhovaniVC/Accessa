@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Modal, Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Colors } from '../../themes/colors';
+import { Colors } from '../../../themes/colors';
 
 export default function NotificacionesScreen() {
   // Datos de ejemplo para notificaciones con detalles extendidos

@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, Alert, TouchableOpacity } from 'react-native';
-import { Colors } from '../../themes/colors';
-import { UserContext } from '../../context/UserContext';
-import { buildApiUrl } from '../../config/api';
+import { Colors } from '../../../themes/colors.js';
+
+import { UserContext } from '../../../context/UserContext.js';
+import { buildApiUrl } from '../../../config/api.js';
 
 export default function DatosScreen() {
   const { user } = useContext(UserContext);
