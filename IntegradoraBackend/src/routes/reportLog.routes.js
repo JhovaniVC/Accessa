@@ -34,9 +34,9 @@ router.post('/', checkRole([ROLES.RESIDENT]), upload.single('image'), createRepo
 // Rutas para guardias
 router.post('/admin', checkRole([ROLES.GUARD]), createAdminReport);
 
-// Rutas para administradores
-router.get('/', checkRole([ROLES.ADMIN]), getAllReports);
-router.get('/type/:reportType', checkRole([ROLES.ADMIN]), getReportsByType);
+// Rutas para administradores y guardias
+router.get('/', checkRole([ROLES.ADMIN, ROLES.GUARD]), getAllReports);
+router.get('/type/:reportType', checkRole([ROLES.ADMIN, ROLES.GUARD]), getReportsByType);
 
 // Rutas para usuarios específicos
 router.get('/user/:userId', checkRole([ROLES.ADMIN, ROLES.RESIDENT, ROLES.GUARD]), getReportsByUserId);

@@ -66,6 +66,9 @@ const register = async (req, res) => {
     const userWithoutPassword = { ...newUser._doc };
     delete userWithoutPassword.password;
 
+    // Agregar el campo role para el frontend
+    userWithoutPassword.role = role.name;
+
     res.status(201).json({
       message: 'User registered successfully',
       user: userWithoutPassword,
@@ -114,6 +117,9 @@ const login = async (req, res) => {
     const userWithoutPassword = { ...user._doc };
     delete userWithoutPassword.password;
 
+    // Agregar el campo role para el frontend
+    userWithoutPassword.role = user.roleId.name;
+
     res.status(200).json({
       message: 'Login successful',
       user: userWithoutPassword,
@@ -137,6 +143,9 @@ const verifyAuth = async (req, res) => {
     // El middleware validateToken ya verificó el token y agregó el usuario a req.user
     const userWithoutPassword = { ...req.user._doc };
     delete userWithoutPassword.password;
+
+    // Agregar el campo role para el frontend
+    userWithoutPassword.role = req.user.roleId.name;
 
     res.status(200).json({
       authenticated: true,

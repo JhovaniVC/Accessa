@@ -22,6 +22,9 @@ export default function ScreenCodigoQR({ navigation }) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
   const [reason, setReason] = useState('');
+  const [visitDate, setVisitDate] = useState('');
+  const [entryTime, setEntryTime] = useState('');
+  const [exitTime, setExitTime] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [loading, setLoading] = useState(false);
   const [generatedQR, setGeneratedQR] = useState(null);
@@ -53,6 +56,9 @@ export default function ScreenCodigoQR({ navigation }) {
     setPhoneNumber('');
     setSelectedDate(null);
     setReason('');
+    setVisitDate('');
+    setEntryTime('');
+    setExitTime('');
     setGeneratedQR(null);
     setQrData(null);
   };
@@ -104,6 +110,9 @@ export default function ScreenCodigoQR({ navigation }) {
         guestName: guestName.trim(),
         phoneNumber: phoneNumber.trim(),
         reason: reason.trim(),
+        visitDate: visitDate.trim(),
+        entryTime: entryTime.trim(),
+        exitTime: exitTime.trim(),
         createdBy: user?.name || 'Usuario'
       };
 
@@ -176,7 +185,7 @@ export default function ScreenCodigoQR({ navigation }) {
           style={styles.viewListButton}
           onPress={() => navigation.navigate('QRList')}
         >
-          <Text style={styles.viewListButtonText}>Ver mis códigos QR</Text>
+          <Text style={styles.viewListButtonText}>Ver mi historial de códigos QR</Text>
         </TouchableOpacity>
 
         <View style={styles.card}>
@@ -238,6 +247,42 @@ export default function ScreenCodigoQR({ navigation }) {
               multiline
               value={reason}
               onChangeText={setReason}
+            />
+          </View>
+
+          {/* Fecha de visita */}
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Fecha de visita</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Ej: 15/01/2024"
+              placeholderTextColor={Colors.gray}
+              value={visitDate}
+              onChangeText={setVisitDate}
+            />
+          </View>
+
+          {/* Hora de entrada */}
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Hora de entrada</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Ej: 14:30"
+              placeholderTextColor={Colors.gray}
+              value={entryTime}
+              onChangeText={setEntryTime}
+            />
+          </View>
+
+          {/* Hora de salida */}
+          <View style={styles.fieldGroup}>
+            <Text style={styles.label}>Hora de salida</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Ej: 18:00"
+              placeholderTextColor={Colors.gray}
+              value={exitTime}
+              onChangeText={setExitTime}
             />
           </View>
         </View>
@@ -405,8 +450,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 8,
-    marginBottom: 20,
     alignItems: 'center',
+    marginBottom: 20,
   },
   viewListButtonText: {
     color: Colors.primary,

@@ -25,9 +25,16 @@ export default function QRListScreen({ navigation }) {
 
   // Función para obtener todos los códigos QR del usuario
   const fetchUserQRCodes = async () => {
-    if (!user?._id) return;
+    if (!user?._id) {
+      console.log('❌ No hay usuario logueado');
+      setLoading(false);
+      return;
+    }
     
     try {
+      console.log('🔍 Obteniendo códigos QR para usuario:', user._id);
+      console.log('🔗 URL:', buildApiUrl(`/api/qr-codes/user/${user._id}`));
+      
       const response = await fetch(buildApiUrl(`/api/qr-codes/user/${user._id}`), {
         method: 'GET',
         headers: {
@@ -36,13 +43,21 @@ export default function QRListScreen({ navigation }) {
         credentials: 'include',
       });
       
+      console.log('📡 Respuesta del servidor:', response.status, response.statusText);
+      
       if (response.ok) {
         const data = await response.json();
+        console.log('📊 Códigos QR cargados:', data.length, 'códigos');
+        console.log('📋 Primer código QR:', data[0]);
         setQrCodes(data);
       } else {
+        console.error('❌ Error en respuesta:', response.status, response.statusText);
+        const errorText = await response.text();
+        console.error('📄 Contenido del error:', errorText);
         Alert.alert('Error', 'No se pudieron cargar los códigos QR');
       }
     } catch (error) {
+      console.error('❌ Error de conexión:', error);
       Alert.alert('Error', 'No se pudo conectar con el servidor');
     } finally {
       setLoading(false);
@@ -176,7 +191,7 @@ export default function QRListScreen({ navigation }) {
         </View>
       ) : (
         <View style={styles.qrCodesContainer}>
-          {qrCodes.map((qrCode, index) => {
+          {qrCodes && qrCodes.map((qrCode, index) => {
             const guestInfo = parseGuestInformation(qrCode.information);
             return (
               <View key={qrCode._id || index} style={styles.qrCodeCard}>

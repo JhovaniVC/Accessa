@@ -15,6 +15,7 @@ import { buildApiUrl } from '../../config/api';
 
 
 
+
 export default function ProfileScreen({navigation}) {
   const { user, logout } = useContext(UserContext);
   const [loggingOut, setLoggingOut] = useState(false);
@@ -147,6 +148,8 @@ export default function ProfileScreen({navigation}) {
           <Text style={styles.logoutButtonText}>CERRAR SESIÓN</Text>
         )}
       </TouchableOpacity>
+
+
     </ScrollView>
   );
 }

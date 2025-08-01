@@ -10,18 +10,29 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 //importciones de las pantallas usadas para la app
 import ScreenHome from './src/screen/Home/ScreenHome';
+import ScreenHomeGuard from './src/screen/Home/ScreenHomeGuard';
 import ScreenLogin from './src/screen/Login/ScreenLogin';
 import ScreenCodigoQR from './src/screen/CodigoQR/ScreenCodigoQR';
+import ScreenCodigoQRGuard from './src/screen/CodigoQR/ScreenCodigoQRGuard';
 import QRListScreen from './src/screen/CodigoQR/QRListScreen';
 import ScreenPerfil from './src/screen/Perfil/ScreenPerfil';
 import ScreenPanico from './src/screen/Panico/ScreenPanico';
 import ScreenReportes from './src/screen/Reportes/ScreenReportes';
 import ReportDetailsScreen from './src/screen/Reportes/ReportDetailsScreen';
+import ReportDetailScreen from './src/screen/Reportes/ReportDetailScreen';
+import ReportHistoryScreen from './src/screen/Reportes/ReportHistoryScreen';
 import ScreenRegistro from './src/screen/Login/ScreenRegistro';
 import ConfiguracionesScreen from './src/screen/Perfil/ConfiguracionesScreen';
 import DatosScreen from './src/screen/Perfil/DatosScreen';
 import NotificacionesScreen from './src/screen/Perfil/NotificacionesScreen';
 import ApiConfig from './src/components/ApiConfig';
+import RoleBasedHome from './src/components/RoleBasedHome';
+import RoleBasedQR from './src/components/RoleBasedQR';
+import RoleBasedReports from './src/components/RoleBasedReports';
+import BitacoraMenuScreen from './src/screen/Bitacora/BitacoraMenuScreen';
+import BitacoraScreen from './src/screen/Bitacora/BitacoraScreen';
+import BitacoraAccesosScreen from './src/screen/Bitacora/BitacoraAccesosScreen';
+import ScreenScannerQR from './src/screen/CodigoQR/ScreenScannerQR';
 
 //importamos los estilos
 import { Colors } from './src/themes/colors';
@@ -29,67 +40,11 @@ import { Colors } from './src/themes/colors';
 const Stack = createStackNavigator();
 const Tabs = createBottomTabNavigator();
 
+import RoleBasedTabs from './src/components/RoleBasedTabs';
+
 // --- Tabs principales ---
 function MyTabs() {
-    return (
-        <Tabs.Navigator
-            screenOptions={{
-                tabBarActiveTintColor: Colors.textPrimary,
-                tabBarInactiveTintColor: Colors.background,
-                tabBarActiveBackgroundColor: Colors.background,
-                headerBackTitle: 'Custom Back',
-                headerBackTitleStyle: { fontSize: 30 },
-                headerTitleAlign: 'center',
-                headerShown: true,
-                headerTintColor: Colors.background,
-                headerTitleStyle: {
-                    color: Colors.background,
-                    fontWeight: 'bold',
-                    justifyContent: 'center'
-                },
-                headerStyle: {
-                    backgroundColor: Colors.textPrimary,
-                },
-                tabBarLabelPosition: 'below-icon',
-                tabBarStyle: {
-                    backgroundColor: Colors.textPrimary,
-                    borderTopWidth: 0,
-                    position: 'absolute',
-                },
-            }}
-        >
-            <Tabs.Screen name="Inicio" component={MyStackHome}
-                options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <Entypo name="home" size={size} color={color} />
-                    ),
-                }} />
-            <Tabs.Screen name="Panico" component={ScreenPanico}
-                options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <Feather name="alert-octagon" size={size} color={color} />
-                    )
-                }} />
-            <Tabs.Screen name="Reportes" component={ScreenReportes}
-                options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <FontAwesome name="file" size={size} color={color} />
-                    )
-                }} />
-            <Tabs.Screen name="QR" component={MyStackQR}
-                options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <FontAwesome name="qrcode" size={size} color={color} />
-                    )
-                }} />
-            <Tabs.Screen name="Perfil" component={MyStackUser}
-                options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <Feather name="user" size={size} color={color} />
-                    )
-                }} />
-        </Tabs.Navigator>
-    )
+    return <RoleBasedTabs />;
 }
 
 // --- Stack para Home (puedes expandir si tienes más pantallas desde Home) ---
@@ -97,7 +52,6 @@ function MyStackHome() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Home" component={ScreenHome} options={{ headerShown: false }} />
-            <Stack.Screen name="ReportDetails" component={ReportDetailsScreen} options={{ title: 'Detalles de Reportes' }} />
         </Stack.Navigator>
     );
 }
@@ -106,8 +60,20 @@ function MyStackHome() {
 function MyStackQR() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="QRCreator" component={ScreenCodigoQR} options={{ headerShown: false }} />
+            <Stack.Screen name="QRCreator" component={RoleBasedQR} options={{ headerShown: false }} />
             <Stack.Screen name="QRList" component={QRListScreen} options={{ title: 'Mis Códigos QR' }} />
+            <Stack.Screen name="Scanner" component={ScreenScannerQR} options={{ title: 'Escanear QR' }} />
+        </Stack.Navigator>
+    );
+}
+
+// --- Stack para Bitácora ---
+function MyStackBitacora() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="BitacoraMenu" component={BitacoraMenuScreen} options={{ title: 'Bitácora' }} />
+            <Stack.Screen name="BitacoraGeneral" component={BitacoraScreen} options={{ title: 'Bitácora General' }} />
+            <Stack.Screen name="BitacoraAccesos" component={BitacoraAccesosScreen} options={{ title: 'Bitácora de Accesos' }} />
         </Stack.Navigator>
     );
 }
@@ -131,6 +97,11 @@ function MainStack() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login" component={ScreenLogin} />
             <Stack.Screen name="MainTabs" component={MyTabs} />
+                    <Stack.Screen name="ReportHistory" component={ReportHistoryScreen} options={{ title: 'Mi Historial de Reportes' }} />
+        <Stack.Screen name="QRList" component={QRListScreen} options={{ title: 'Mi Historial de Códigos QR' }} />
+        <Stack.Screen name="ReportDetails" component={ReportDetailScreen} options={{ title: 'Detalles del Reporte' }} />
+        <Stack.Screen name="Panico" component={ScreenPanico} options={{ title: 'Botón de Emergencia' }} />
+        <Stack.Screen name="Scanner" component={ScreenScannerQR} options={{ title: 'Escanear QR' }} />
         </Stack.Navigator>
     );
 }

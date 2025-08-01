@@ -5,13 +5,15 @@ import { Colors } from '../themes/colors';
 
 
 export const ActionCard = ({ icon, title, subtitle, onPress }) => (
-    <Card style={styles.actionCard} onPress={onPress}>
+    <TouchableOpacity style={styles.actionCard} onPress={onPress}>
         <Card.Content style={styles.actionCardContent}>
-            <Avatar.Icon icon={icon} size={40} style={styles.actionIcon} />
-            <Text style={styles.actionTitle}>{title}</Text>
-            <Text style={styles.actionSubtitle}>{subtitle}</Text>
+            <Avatar.Icon icon={icon} size={48} style={styles.actionIcon} />
+            <View style={styles.actionTextContainer}>
+                <Text style={styles.actionTitle}>{title}</Text>
+                <Text style={styles.actionSubtitle}>{subtitle}</Text>
+            </View>
         </Card.Content>
-    </Card>
+    </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
@@ -94,33 +96,37 @@ const styles = StyleSheet.create({
     
   },
   actionCard: {
-    width: '48%',
-    borderRadius: 12,
+    width: '100%',
+    borderRadius: 16,
     backgroundColor: Colors.primary,
-    color: Colors.textOnPrimary, 
-    elevation: 2,
+    marginBottom: 15,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   actionCardContent: {
+    flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    padding: 20,
   },
   actionIcon: {
-    backgroundColor: Colors.primary,
-    color: Colors.textPrimary,
-    marginBottom: 12,
-    borderRadius:50
+    backgroundColor: 'rgba(255,255,255,0.2)',
+  },
+  actionTextContainer: {
+    marginLeft: 15,
+    flex: 1,
   },
   actionTitle: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: Colors.textOnPrimary,
-    marginBottom: 4,
-    textAlign: 'center',
+    color: 'white',
   },
   actionSubtitle: {
-    fontSize: 1,
-    color: Colors.textPrimary,
-    textAlign: 'center',
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.8)',
+    marginTop: 4,
   },
 
   

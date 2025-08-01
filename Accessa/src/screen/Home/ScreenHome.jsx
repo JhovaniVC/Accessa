@@ -31,6 +31,7 @@ export default function ScreenHome({ navigation }) {
       
       if (response.ok) {
         const reports = await response.json();
+        console.log('Reportes para estadísticas:', reports);
         const now = new Date();
         const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
         
@@ -38,12 +39,16 @@ export default function ScreenHome({ navigation }) {
           new Date(report.createdAt) >= thisMonth
         );
         
+        console.log('Reportes este mes:', thisMonthReports.length);
+        console.log('Total reportes:', reports.length);
+        
         setReportStats({
           total: reports.length,
           thisMonth: thisMonthReports.length,
           loading: false
         });
       } else {
+        console.log('Error en respuesta de estadísticas:', response.status);
         setReportStats({ total: 0, thisMonth: 0, loading: false });
       }
     } catch (error) {
@@ -60,7 +65,7 @@ export default function ScreenHome({ navigation }) {
   const goToPanico = () => navigation.navigate('Panico');
   const goToReportes = () => navigation.navigate('Reportes');
   const goToQR = () => navigation.navigate('QR');
-  const goToReportDetails = () => navigation.navigate('ReportDetails');
+  const goToReportDetails = () => navigation.navigate('ReportHistory');
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -86,7 +91,7 @@ export default function ScreenHome({ navigation }) {
           <ActionCard
             icon="file-document"
             title="Reportes"
-            subtitle="Ver y crear reportes"
+            subtitle="Crear y ver mis reportes"
             onPress={goToReportes}
           />
           <ActionCard

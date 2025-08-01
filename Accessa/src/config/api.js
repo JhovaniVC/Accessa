@@ -3,8 +3,9 @@ const API_CONFIG = {
   // Función para detectar automáticamente la IP del servidor
   async detectServerIP() {
     const possibleIPs = [
-      'http://172.16.52.86:3000',  // Tu IP actual
-      'http://192.168.1.225:3000', // IP anterior
+      'http://192.168.1.225:3000', // Tu IP actual en la nueva red
+      'http://192.168.0.18:3000',  // IP anterior
+      'http://172.16.52.86:3000',  // IP anterior
       'http://localhost:3000',      // Para desarrollo local
       'http://10.0.0.1:3000',      // Redes comunes
       'http://192.168.0.1:3000',   // Redes comunes
@@ -36,7 +37,7 @@ const API_CONFIG = {
   },
 
   // IP base (se actualizará automáticamente)
-  BASE_URL: process.env.EXPO_PUBLIC_API_URL || 'http://172.16.52.86:3000',
+  BASE_URL: process.env.EXPO_PUBLIC_API_URL || 'http://192.168.1.225:3000',
   
   // Endpoints
   ENDPOINTS: {
@@ -46,6 +47,8 @@ const API_CONFIG = {
     USER_REPORTS: (userId) => `/api/reports/user/${userId}`,
     QR_CODES: '/api/qr-codes',
     USER_QR_CODES: (userId) => `/api/qr-codes/user/${userId}`,
+    BITACORA: '/api/bitacora',
+    USER_BITACORA: (userId) => `/api/bitacora/user/${userId}`,
     UPLOADS: '/uploads'
   }
 };

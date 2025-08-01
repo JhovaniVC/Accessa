@@ -36,6 +36,10 @@ export default function ScreenLogin() {
       });
       const data = await response.json();
       if (response.ok) {
+        // Configurar el rol del usuario
+        // El backend debe enviar el rol en data.user.role
+        // Ejemplo: data.user.role = 'guard' para guardias
+        // Ejemplo: data.user.role = 'resident' para residentes
         setUser(data.user); // Guardar usuario en contexto
         Alert.alert('Éxito', '¡Login exitoso!');
         navigation.replace('MainTabs');

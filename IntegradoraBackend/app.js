@@ -49,6 +49,7 @@ app.use('/api/guests', require('./src/routes/guest.routes'));
 app.use('/api/notifications', require('./src/routes/notification.routes'));
 app.use('/api/qr-codes', require('./src/routes/qrCode.routes'));
 app.use('/api/reports', require('./src/routes/reportLog.routes'));
+app.use('/api/bitacora', require('./src/routes/bitacora.routes'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

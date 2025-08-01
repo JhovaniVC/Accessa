@@ -3,11 +3,22 @@ import { View, StyleSheet, Text } from 'react-native';
 import { Menu, Button } from 'react-native-paper';
 import { Colors } from '../themes/colors'; // Usa tu archivo de colores
 
-export default function Picker({ label, options, selectedValue, onSelect }) {
+export default function Picker({ label, items, selectedValue, onValueChange, placeholder }) {
   const [visible, setVisible] = useState(false);
 
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
+
+  const handleSelect = (item) => {
+    onValueChange(item.value);
+    closeMenu();
+  };
+
+  const getSelectedLabel = () => {
+    if (!selectedValue) return placeholder || 'Selecciona una opción...';
+    const selectedItem = items?.find(item => item.value === selectedValue);
+    return selectedItem?.label || placeholder || 'Selecciona una opción...';
+  };
 
   return (
     <View style={styles.container}>
@@ -23,18 +34,15 @@ export default function Picker({ label, options, selectedValue, onSelect }) {
             style={styles.button}
             textColor={Colors.textPrimary}
           >
-            {selectedValue || 'Selecciona una opción...'}
+            {getSelectedLabel()}
           </Button>
         }
       >
-        {options.map((option, index) => (
+        {items && items.map((item, index) => (
           <Menu.Item
             key={index}
-            onPress={() => {
-              onSelect(option);
-              closeMenu();
-            }}
-            title={option}
+            onPress={() => handleSelect(item)}
+            title={item.label}
             titleStyle={{ color: Colors.textPrimary }}
           />
         ))}
